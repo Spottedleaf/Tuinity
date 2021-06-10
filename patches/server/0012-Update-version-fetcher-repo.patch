@@ -18,7 +18,7 @@ index 580bae0d414d371a07a6bfeefc41fdd989dc0083..d50b61876f15d95b836b3dd81d9c3492
 -        String[] parts = serverVersion.substring("git-Paper-".length()).split("[-\\s]");
 -        final Component updateMessage = getUpdateStatusMessage("PaperMC/Paper", GITHUB_BRANCH_NAME, parts[0]);
 +        String[] parts = serverVersion.substring("git-Tuinity-".length()).split("[-\\s]"); // Tuinity
-+        final Component updateMessage = getUpdateStatusMessage("Spottedleaf/Tuinity", GITHUB_BRANCH_NAME, parts[0]); // Tuinity
++        final Component updateMessage = getUpdateStatusMessage("Tuinity/Tuinity", GITHUB_BRANCH_NAME, parts[0]); // Tuinity
          final Component history = getHistory();
  
          return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
