@@ -15072,7 +15072,7 @@ index 0000000000000000000000000000000000000000..88d9c0fcd88ccfd6d6b46ae050914079
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ec483518cd8d97c5a3e350b856c4a1fad5794db3
+index 0000000000000000000000000000000000000000..1a019747ab61b95058f7ab7ceecc644913ff99c4
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
 @@ -0,0 +1,315 @@
@@ -15363,7 +15363,7 @@ index 0000000000000000000000000000000000000000..ec483518cd8d97c5a3e350b856c4a1fa
 +                final String itemId = data.getString("id");
 +                final String entityId = ITEM_ID_TO_TILE_ENTITY_ID.get(itemId);
 +                final boolean removeId;
-+                if (entityId == null && "minecraft:air".equals(itemId)) {
++                if (entityId == null && !"minecraft:air".equals(itemId)) {
 +                    LOGGER.warn("Unable to resolve BlockEntity for ItemStack (V704): " + itemId);
 +                    removeId = false;
 +                } else {
