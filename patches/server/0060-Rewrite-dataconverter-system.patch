@@ -15072,10 +15072,10 @@ index 0000000000000000000000000000000000000000..88d9c0fcd88ccfd6d6b46ae050914079
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1a019747ab61b95058f7ab7ceecc644913ff99c4
+index 0000000000000000000000000000000000000000..856f772c760ab05b912385170b229fa009ac8d10
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
-@@ -0,0 +1,315 @@
+@@ -0,0 +1,319 @@
 +package ca.spottedleaf.dataconverter.minecraft.versions;
 +
 +import ca.spottedleaf.dataconverter.converters.DataConverter;
@@ -15337,8 +15337,10 @@ index 0000000000000000000000000000000000000000..1a019747ab61b95058f7ab7ceecc6449
 +                }
 +
 +                final boolean removeId;
-+                if (entityId == null && !"minecraft:air".equals(itemId)) {
-+                    LOGGER.warn("Unable to resolve Entity for ItemStack (V704): " + itemId);
++                if (entityId == null) {
++                    if (!"minecraft:air".equals(itemId)) {
++                        LOGGER.warn("Unable to resolve Entity for ItemStack (V704): " + itemId);
++                    }
 +                    removeId = false;
 +                } else {
 +                    removeId = !entityTag.hasKey("id", ObjectType.STRING);
@@ -15363,8 +15365,10 @@ index 0000000000000000000000000000000000000000..1a019747ab61b95058f7ab7ceecc6449
 +                final String itemId = data.getString("id");
 +                final String entityId = ITEM_ID_TO_TILE_ENTITY_ID.get(itemId);
 +                final boolean removeId;
-+                if (entityId == null && !"minecraft:air".equals(itemId)) {
-+                    LOGGER.warn("Unable to resolve BlockEntity for ItemStack (V704): " + itemId);
++                if (entityId == null) {
++                    if (!"minecraft:air".equals(itemId)) {
++                        LOGGER.warn("Unable to resolve BlockEntity for ItemStack (V704): " + itemId);
++                    }
 +                    removeId = false;
 +                } else {
 +                    removeId = !blockEntityTag.hasKey("id", ObjectType.STRING);
@@ -15899,10 +15903,10 @@ index 0000000000000000000000000000000000000000..9e2ef3cea4fd382a75a4d787fe2e2ff5
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..66b777da10bc5790dc624e3f668da8cb213bccf1
+index 0000000000000000000000000000000000000000..3e6db4c43aa93725dd2d7908871e0dfeeb781700
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java
-@@ -0,0 +1,307 @@
+@@ -0,0 +1,311 @@
 +package ca.spottedleaf.dataconverter.minecraft.versions;
 +
 +import ca.spottedleaf.dataconverter.minecraft.MCVersions;
@@ -16105,8 +16109,10 @@ index 0000000000000000000000000000000000000000..66b777da10bc5790dc624e3f668da8cb
 +                }
 +
 +                final boolean removeId;
-+                if (entityId == null && !"minecraft:air".equals(itemId)) {
-+                    LOGGER.warn("Unable to resolve Entity for ItemStack (V99): " + data.getGeneric("id"));
++                if (entityId == null) {
++                    if (!"minecraft:air".equals(itemId)) {
++                        LOGGER.warn("Unable to resolve Entity for ItemStack (V99): " + data.getGeneric("id"));
++                    }
 +                    removeId = false;
 +                } else {
 +                    removeId = !entityTag.hasKey("id", ObjectType.STRING);
@@ -16131,8 +16137,10 @@ index 0000000000000000000000000000000000000000..66b777da10bc5790dc624e3f668da8cb
 +                final String itemId = getStringId(data.getString("id"));
 +                final String entityId = ITEM_ID_TO_TILE_ENTITY_ID.get(itemId);
 +                final boolean removeId;
-+                if (entityId == null && !"minecraft:air".equals(itemId)) {
-+                    LOGGER.warn("Unable to resolve BlockEntity for ItemStack (V99): " + data.getGeneric("id"));
++                if (entityId == null) {
++                    if (!"minecraft:air".equals(itemId)) {
++                        LOGGER.warn("Unable to resolve BlockEntity for ItemStack (V99): " + data.getGeneric("id"));
++                    }
 +                    removeId = false;
 +                } else {
 +                    removeId = !blockEntityTag.hasKey("id", ObjectType.STRING);
