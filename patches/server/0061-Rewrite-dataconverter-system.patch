@@ -7787,7 +7787,7 @@ index 0000000000000000000000000000000000000000..711222cd33ee557b7f3d1f6ae73ad45d
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V1451.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V1451.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..671cc75caa5c26a00bde0985830d429284ba9971
+index 0000000000000000000000000000000000000000..a5525eb9ecd957d405bedb18c2119e471d689993
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V1451.java
 @@ -0,0 +1,510 @@
@@ -7971,7 +7971,7 @@ index 0000000000000000000000000000000000000000..671cc75caa5c26a00bde0985830d4292
 +                return null;
 +            }
 +        });
-+        MCTypeRegistry.LEVEL.addStructureConverter(new DataConverter<>(VERSION) {
++        MCTypeRegistry.LEVEL.addStructureConverter(new DataConverter<>(VERSION, 5) {
 +            private final Splitter SPLITTER = Splitter.on(';').limit(5);
 +            private final Splitter LAYER_SPLITTER = Splitter.on(',');
 +            private final Splitter OLD_AMOUNT_SPLITTER = Splitter.on('x').limit(2);
@@ -15072,10 +15072,10 @@ index 0000000000000000000000000000000000000000..88d9c0fcd88ccfd6d6b46ae050914079
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..856f772c760ab05b912385170b229fa009ac8d10
+index 0000000000000000000000000000000000000000..1d1df6d50f9e6acd8f416cb86e74e6974f4d3913
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V704.java
-@@ -0,0 +1,319 @@
+@@ -0,0 +1,328 @@
 +package ca.spottedleaf.dataconverter.minecraft.versions;
 +
 +import ca.spottedleaf.dataconverter.converters.DataConverter;
@@ -15332,6 +15332,15 @@ index 0000000000000000000000000000000000000000..856f772c760ab05b912385170b229fa0
 +                    // DFU agrees with my analysis here, it will only set the entityId here to the namespaced variant
 +                    // with the V705 schema.
 +                    entityId = DataConverter.getVersion(fromVersion) < 705 ? "ArmorStand" : "minecraft:armor_stand";
++                } else if (itemId != null && itemId.contains("_spawn_egg")) {
++                    // V1451 changes spawn eggs to have the sub entity id be a part of the item id, but of course Mojang never
++                    // bothered to write in logic to set the sub entity id, so we have to.
++                    // format is ALWAYS <namespace>:<id>_spawn_egg post flattening
++                    entityId = itemId.substring(0, itemId.indexOf("_spawn_egg"));
++                } else if ("minecraft:item_frame".equals(itemId)) {
++                    // add missing item_frame entity id
++                    // version check is same for armorstand, as both were namespaced at the same time
++                    entityId = DataConverter.getVersion(fromVersion) < 705 ? "ItemFrame" : "minecraft:item_frame";
 +                } else {
 +                    entityId = entityTag.getString("id");
 +                }
@@ -15903,10 +15912,10 @@ index 0000000000000000000000000000000000000000..9e2ef3cea4fd382a75a4d787fe2e2ff5
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3e6db4c43aa93725dd2d7908871e0dfeeb781700
+index 0000000000000000000000000000000000000000..121430367b26dd89aad87a0f293ab3fcb129f377
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/versions/V99.java
-@@ -0,0 +1,311 @@
+@@ -0,0 +1,314 @@
 +package ca.spottedleaf.dataconverter.minecraft.versions;
 +
 +import ca.spottedleaf.dataconverter.minecraft.MCVersions;
@@ -16104,6 +16113,9 @@ index 0000000000000000000000000000000000000000..3e6db4c43aa93725dd2d7908871e0dfe
 +                    // DFU agrees with my analysis here, it will only set the entityId here to the namespaced variant
 +                    // with the V705 schema.
 +                    entityId = "ArmorStand";
++                } else if ("minecraft:item_frame".equals(itemId)) {
++                    // add missing item_frame entity id
++                    entityId = "ItemFrame";
 +                } else {
 +                    entityId = entityTag.getString("id");
 +                }
