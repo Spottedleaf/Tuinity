@@ -71,7 +71,7 @@ index 0000000000000000000000000000000000000000..7f2aeb5ed6775ddf38f2561aae8a82f9
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index e97805f2ee939d462a6875ace1a7a592854dba84..8cd0411374fdcd5748a45cd1cab50bc059956bdd 100644
+index 72b7304269352c7f9d463f7e6343f3f8c628327c..2d7b5295db3f31494b14d2f89b4c95a929238259 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -791,6 +791,10 @@ public class ServerLevel extends net.minecraft.world.level.Level implements Worl
@@ -98,7 +98,7 @@ index e97805f2ee939d462a6875ace1a7a592854dba84..8cd0411374fdcd5748a45cd1cab50bc0
              if (this.isRainingAt(blockposition)) {
                  DifficultyInstance difficultydamagescaler = this.getCurrentDifficultyAt(blockposition);
                  boolean flag1 = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) difficultydamagescaler.getEffectiveDifficulty() * paperConfig.skeleHorseSpawnChance && !this.getBlockState(blockposition.below()).is(Blocks.LIGHTNING_ROD); // Paper
-@@ -826,64 +830,76 @@ public class ServerLevel extends net.minecraft.world.level.Level implements Worl
+@@ -826,64 +830,78 @@ public class ServerLevel extends net.minecraft.world.level.Level implements Worl
          }
  
          gameprofilerfiller.popPush("iceandsnow");
@@ -108,7 +108,7 @@ index e97805f2ee939d462a6875ace1a7a592854dba84..8cd0411374fdcd5748a45cd1cab50bc0
 +         if (!this.paperConfig.disableIceAndSnow && this.randomTickRandom.nextInt(16) == 0) { // Paper - Disable ice and snow // Paper - optimise random ticking
 +            // Paper start - optimise chunk ticking
 +            this.getRandomBlockPosition(j, 0, k, 15, blockposition);
-+            int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15);
++            int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 +            int downY = normalY - 1;
 +            blockposition.setY(normalY);
 +            // Paper end
@@ -132,9 +132,11 @@ index e97805f2ee939d462a6875ace1a7a592854dba84..8cd0411374fdcd5748a45cd1cab50bc0
 -                BlockState iblockdata = this.getBlockState(blockposition1);
 +                blockposition.setY(downY); // Paper
 +                BlockState iblockdata = this.getBlockState(blockposition); // Paper
++                blockposition.setY(normalY); // Paper
                  Biome.Precipitation biomebase_precipitation = this.getBiome(blockposition).getPrecipitation();
  
 -                if (biomebase_precipitation == Biome.Precipitation.RAIN && biomebase.isColdEnoughToSnow(blockposition1)) {
++                blockposition.setY(downY); // Paper
 +                if (biomebase_precipitation == Biome.Precipitation.RAIN && biomebase.isColdEnoughToSnow(blockposition)) { // Paper
                      biomebase_precipitation = Biome.Precipitation.SNOW;
                  }
@@ -258,10 +260,10 @@ index 925f16d5eb092518ef774f69a8d99689feb0f5d7..01d8af06f19427354cac95d691e65d31
  
      public BlockPos getHomePos() { // Paper - public
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index c9c113a187c4eb99e80749b4871eed3da9394f79..36b3e08160c5c085662527a72d8bd383c91e52fe 100644
+index 3906060a87503ddf3c19c01f4120707f3f290df6..2ee9e52116cf37d218aedb1207c15ff289f7251c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -1354,10 +1354,18 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1361,10 +1361,18 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public abstract TagContainer getTagManager();
  
      public BlockPos getBlockRandomPos(int x, int y, int z, int l) {
