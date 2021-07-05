@@ -19382,7 +19382,7 @@ index 572a013445bd83d366cce27d0e015ba8271df7e0..0e8ae9a7204bdea8026dbdc29d00db61
  
      public static int getVersion(CompoundTag chunkTag) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
-index 90f7b06bd2c558be35c4577044fa033e1fb5cc22..25f21ec1c0ebfc10a5de6748de3a48f4946300b7 100644
+index 8f244db7e46ac1a3d2c8358f001d488900a76926..15399f1f89aac68e64afc1e4e7942487a04fd7e0 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/SectionStorage.java
 @@ -135,7 +135,15 @@ public class SectionStorage<R> extends RegionFileStorage implements AutoCloseabl
