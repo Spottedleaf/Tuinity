@@ -188,7 +188,7 @@ index 0000000000000000000000000000000000000000..64f442922a9ca26a723653acb7a5398f
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersionRegistry.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersionRegistry.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a424809f39c053b79183b8daa19eda8c526c984b
+index 0000000000000000000000000000000000000000..1026027daf0073063ccb1befce12e166fcfb4225
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersionRegistry.java
 @@ -0,0 +1,304 @@
@@ -364,7 +364,7 @@ index 0000000000000000000000000000000000000000..a424809f39c053b79183b8daa19eda8c
 +                2707,
 +                2710,
 +                2717
-+                // All up to 1.17
++                // All up to 1.17.1
 +        };
 +        Arrays.sort(converterVersions);
 +
@@ -498,10 +498,10 @@ index 0000000000000000000000000000000000000000..a424809f39c053b79183b8daa19eda8c
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersions.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersions.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..21b4da4fcd705b2657a227007bea4853c8d874dc
+index 0000000000000000000000000000000000000000..6b954f25089aa8bb66359280d4aca596e3f8530f
 --- /dev/null
 +++ b/src/main/java/ca/spottedleaf/dataconverter/minecraft/MCVersions.java
-@@ -0,0 +1,360 @@
+@@ -0,0 +1,366 @@
 +package ca.spottedleaf.dataconverter.minecraft;
 +
 +@SuppressWarnings("unused")
@@ -861,6 +861,12 @@ index 0000000000000000000000000000000000000000..21b4da4fcd705b2657a227007bea4853
 +    public static final int V1_17_RC1             = 2722;
 +    public static final int V1_17_RC2             = 2723;
 +    public static final int V1_17                 = 2724;
++    public static final int V1_17_1_PRE1          = 2725;
++    public static final int V1_17_1_PRE2          = 2726;
++    public static final int V1_17_1_PRE3          = 2727;
++    public static final int V1_17_1_RC1           = 2728;
++    public static final int V1_17_1_RC2           = 2729;
++    public static final int V1_17_1               = 2730;
 +}
 diff --git a/src/main/java/ca/spottedleaf/dataconverter/minecraft/converters/advancements/ConverterAbstractAdvancementsRename.java b/src/main/java/ca/spottedleaf/dataconverter/minecraft/converters/advancements/ConverterAbstractAdvancementsRename.java
 new file mode 100644
@@ -19369,10 +19375,10 @@ index 70ec2feef1553afca2c8cca3a7f19498637b41d5..776f4b5335621e5237ab9339604a097e
              nbttagcompound.putInt("DataVersion", SharedConstants.getCurrentVersion().getWorldVersion());
          }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
-index 572a013445bd83d366cce27d0e015ba8271df7e0..0e8ae9a7204bdea8026dbdc29d00db611db10906 100644
+index 69ac9ed94b1890f9bd5ba21cdfe31e42529274e1..1a4dc32be0fc2aeeceacb6113396eb545d29b24b 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/EntityStorage.java
-@@ -126,7 +126,7 @@ public class EntityStorage implements EntityPersistentStorage<Entity> {
+@@ -128,7 +128,7 @@ public class EntityStorage implements EntityPersistentStorage<Entity> {
  
      private CompoundTag upgradeChunkTag(CompoundTag chunkTag) {
          int i = getVersion(chunkTag);
